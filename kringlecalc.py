@@ -28,7 +28,6 @@ class kriskringle(object):
                 self.kris_kringles[kringle] = self.set_recipient_for_kringle(kringle)
             except ValueError as e:
                 if kringle == self.participants[-1]:
-                    print 'restarting'
                     self.restart_process()
                 else:
                     self.participants.insert(len(self.participants), kringle)
@@ -92,19 +91,16 @@ class kriskringle(object):
     def check_previous_recipient(self):
         """ Check if the recipient was the kringles recipient last year. """
         if self.recipient == self.previousKringles[self.kringle]:
-            print 'Prev error: %s %s' % (self.kringle, self.recipient)
             return True
 
     def check_spouses(self):
         """ Check if the recipient is the kringles spouse. """
         if self.kringle in self.spouses and self.recipient == self.spouses[self.kringle]:
-            print 'Spouse error: %s %s' % (self.kringle, self.recipient)
             return True
 
     def check_self(self):
         """ Check if the recipient is the kringle. """
         if self.kringle == self.recipient:
-            print 'Self error: %s %s' % (self.kringle, self.recipient)
             return True
 
     def restart_process(self):

@@ -12,11 +12,15 @@ def main():
     recipients = kris_kringle.assign_recipient_list()
 
     write_this_years_file(recipients)
-    print recipients
+    display_kringles(recipients)
+
+def display_kringles(recipients):
+    """ Show the results. """
+    for kringle, recip in recipients.iteritems():
+        print '%s giving to %s' % (kringle, recip)
 
 def write_this_years_file(recipients):
     """ Write the recipients to this year's file. """
-    print len(recipients)
     year = datetime.datetime.now().year
     filename = 'kringles' + str(year) + '.json'
     try:
