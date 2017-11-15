@@ -4,34 +4,14 @@
 import sys
 import datetime
 import json
-from KringleCalc import KrisKringle
-
-PARTICIPANTS = [
-    "Sumter",
-    "Sherry",
-    "Fran",
-    "John",
-    "Laura Jean",
-    "Mary Heather",
-    "Rich",
-    "Kathryn",
-    "Tom",
-    "Adriane"
-]
+from kringlecalc import kriskringle
 
 def main():
     """docstring"""
-    recipients = {}
-    kk = KrisKringle()
-    print PARTICIPANTS
-    for kringle in PARTICIPANTS:
-        try:
-            recipients[kringle] = kk.setRecipientForKringle(kringle)
-        except ValueError as e:
-            PARTICIPANTS.append(kringle)
-            print PARTICIPANTS
-
+    kk = kriskringle()
+    recipients = kk.assign_recipient_list()
     writeThisYearsFile(recipients)
+    print recipients
 
 def writeThisYearsFile(recipients):
     print len(recipients)
