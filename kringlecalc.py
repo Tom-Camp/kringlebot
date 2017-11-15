@@ -24,12 +24,12 @@ class kriskringle(object):
     def assign_recipient_list(self):
         """ Try to assign a recipient to a Kris Kringle. """
         for kringle in self.participants:
-            print self.participants
             try:
                 self.kris_kringles[kringle] = self.set_recipient_for_kringle(kringle)
             except ValueError as e:
                 if kringle == self.participants[-1]:
-                    self.__init__()
+                    print 'restarting'
+                    self.restart_process()
                 else:
                     self.participants.insert(len(self.participants), kringle)
 
@@ -106,3 +106,10 @@ class kriskringle(object):
         if self.kringle == self.recipient:
             print 'Self error: %s %s' % (self.kringle, self.recipient)
             return True
+
+    def restart_process(self):
+        self.set_participants()
+        self.set_recipient_list()
+        self.set_spouses()
+        self.set_previous_recipient_list()
+        return self.assign_recipient_list()
