@@ -27,7 +27,7 @@ class kriskringle(object):
             try:
                 self.kris_kringles[kringle] = self.set_recipient_for_kringle(kringle)
             except ValueError as e:
-                if kringle == self.participants[-1]:
+                if kringle == self.participants[-1] or kringle == self.participants[-2]:
                     self.restart_process()
                 else:
                     self.participants.insert(len(self.participants), kringle)
