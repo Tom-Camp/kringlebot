@@ -4,8 +4,9 @@ the Kringle's spouse, or the Kringle's recipient from last year.
 """
 
 import datetime
-import json
 from random import randint
+from file_worker import FileWorker
+
 
 class kriskringle(object):
     """ Assign a recipient to a Kris Kringle"""
@@ -26,7 +27,7 @@ class kriskringle(object):
         for kringle in self.participants:
             try:
                 self.kris_kringles[kringle] = self.set_recipient_for_kringle(kringle)
-            except ValueError as e:
+            except ValueError:
                 if kringle == self.participants[-1] or kringle == self.participants[-2]:
                     self.restart_process()
                 else:
@@ -36,38 +37,21 @@ class kriskringle(object):
 
     def set_participants(self):
         """ Read the participants from a json file. """
-        try:
-            with open('participants.json', "r") as json_data:
-                self.participants = json.load(json_data)
-        except Exception:
-            print "Unable to open participants.json."
+        self.participants = FileWorker().readfile('participants.json')
 
     def set_recipient_list(self):
         """ Create the recipient_list list. """
-        try:
-            with open('participants.json', "r") as json_data:
-                self.recipient_list = json.load(json_data)
-        except Exception:
-            print "Unable to open participants.json."
+        self.recipient_list = FileWorker().readfile('participants.json')
 
     def set_spouses(self):
         """ Create the spouses dictionary. """
-        try:
-            with open('spouses.json', "r") as json_data:
-                self.spouses = json.load(json_data)
-        except Exception:
-            print "Unable to open spouses.json."
+        self.spouses = FileWorker().readfile('spouses.json')
 
     def set_previous_recipient_list(self):
         """ Create the previous recipient_list dictionary. """
         last_year = datetime.datetime.now().year - 1
         filename = 'kringles' + str(last_year) + '.json'
-        try:
-            with open(filename, "r") as json_data:
-                self.previousKringles = json.load(json_data)
-        except Exception:
-            self.previousKringles = {}
-            print "Unable to open %s" % filename
+        self.previous_kringles = FileWorker().readfile(filename)
 
     def set_recipient_for_kringle(self, kringle):
         """ Try to assign a recipient to a kringle. """
@@ -90,7 +74,7 @@ class kriskringle(object):
 
     def check_previous_recipient(self):
         """ Check if the recipient was the kringles recipient last year. """
-        if self.recipient == self.previousKringles[self.kringle]:
+        if self.recipient == self.previous_kringles[self.kringle]:
             return True
 
     def check_spouses(self):
