@@ -11,12 +11,16 @@ class FileWorker(object):
     def __init__(self):
         pass
 
-    def readfile(self, filename):
+    def readfile(self, filename, type):
         try:
             with open('files/' + filename, "r+") as json_data:
                 return json.load(json_data)
         except Exception:
             print "Unable to open %s" % filename
+            if type == 'list':
+                return []
+            else:
+                return {}
 
     def writefile(self, filename, data):
         try:
