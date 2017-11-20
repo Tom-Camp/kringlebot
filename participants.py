@@ -47,25 +47,33 @@ class ConfigureParticipants(object):
         else:
             prompt = ''
         participant = raw_input('Add %sparticipant >> ' % prompt)
-        if participant == 'x':
+        if participant == 's':
             FileWorker().writefile('participants.json', self.participants)
+            Helpers().restart()
+        elif participant == 'x':
             Helpers().restart()
         else:
             self.participants.append(participant)
             self.configure()
 
     def add_additional(self):
+        Helpers().clear()
+        Helpers().get_header()
         print 'Add additional participants below.'
         print ''
-        print 'Enter "x" to save list.'
+        print 'Enter "s" to save list or "x" to cancel.'
         print '-----------------------'
+        print ''
         for p in self.participants:
             print p
         self.add()
 
     def edit(self):
+        Helpers().clear()
+        Helpers().get_header()
         for index, kringle in enumerate(self.participants):
             print '%i) %s' % (index + 1, kringle)
+        print ''
         print 'Enter the number to edit or "x" to Save and return to Main Menu'
         participant = raw_input('>> ')
         self.edit_participant(participant)
@@ -75,10 +83,26 @@ class ConfigureParticipants(object):
             FileWorker().writefile('participants.json', self.participants)
             Helpers().restart()
         elif participant.isdigit():
-            user = self.participants[int(participant) - 1]
+            print 'Enter "u" to update or "d" to delete user %s' % self.participants[int(participant) - 1]
+            print 'Enter "x" to return to the Edit menu.'
+            print ''
+            option = raw_input('>> ')
+            self.update_delete_participant(int(participant) - 1, option)
+        else:
+            self.edit()
+
+    def update_delete_participant(self, participant, option):
+        if option == 'x' or option == 'X':
+            self.edit()
+        elif option == 'u' or option == 'U':
+            user = self.participants[participant]
             updated = raw_input('Edit user: %s' % user + chr(8) * len(user))
-            del self.participants[int(participant) - 1]
+            del self.participants[participant]
             self.participants.append(updated)
+            self.edit()
+        elif option == 'd' or option == 'D':
+            del self.participants[participant]
             self.edit()
         else:
             self.edit()
+

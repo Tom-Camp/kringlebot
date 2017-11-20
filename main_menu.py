@@ -60,10 +60,10 @@ class MainMenu(object):
             self.action(option - 1)
 
     def action(self, option):
-        Helpers().clear()
-        Helpers().get_header()
         action = self.menu_items[option]
         if action == 'List participants':
+            Helpers().clear()
+            Helpers().get_header()
             ConfigureParticipants().list()
             raw_input('Press "Enter" to continue.')
             Helpers().restart()
