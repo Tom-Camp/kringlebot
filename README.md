@@ -6,11 +6,11 @@ picking names so that each person in the family only had to buy one gift for
 one person. For years we drew names out of hat, but now we are scattered across
  the country and married. The Kringlebot is a Python script that associates 
  Kris Kringles with the person to whom they will be giving a gift. It will 
- generate a json file with the Kringle and recipient for every year so that 
+ generate a JSON file with the Kringle and recipient for every year so that 
  there will be a historical record and so Kringles won't have the same 
  recipients two years in a row. It can also be configured so that spouses won't
-  get their spouse because, I assume, they are already getting something 
-  spectacular for them.
+  get their spouse because, I assume, they are already getting them something 
+  spectacular.
 
 ## Installation
 The Kringlebot is designed to be run in a terminal. There is no installation 
