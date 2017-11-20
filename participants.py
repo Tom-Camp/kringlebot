@@ -41,7 +41,12 @@ class ConfigureParticipants(object):
         self.add()
 
     def add(self):
-        participant = raw_input('Name? ')
+        if self.participants:
+            print '-----------------------'
+            prompt = 'another '
+        else:
+            prompt = ''
+        participant = raw_input('Add %sparticipant >> ' % prompt)
         if participant == 'x':
             FileWorker().writefile('participants.json', self.participants)
             Helpers().restart()
@@ -50,8 +55,6 @@ class ConfigureParticipants(object):
             self.configure()
 
     def add_additional(self):
-        Helpers().clear()
-        Helpers().get_header()
         print 'Add additional participants below.'
         print ''
         print 'Enter "x" to save list.'
@@ -61,8 +64,6 @@ class ConfigureParticipants(object):
         self.add()
 
     def edit(self):
-        Helpers().clear()
-        Helpers().get_header()
         for index, kringle in enumerate(self.participants):
             print '%i) %s' % (index + 1, kringle)
         print 'Enter the number to edit or "x" to Save and return to Main Menu'
