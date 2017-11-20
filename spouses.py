@@ -27,7 +27,7 @@ class ConfigureSpouses(object):
             return False
 
     def prepare_to_add(self):
-        self.participants = ConfigureParticipants.get()
+        self.participants = ConfigureParticipants().get()
         self.unassigned = self.participants
         self.unassigned.append('None')
         self.configure()
@@ -37,19 +37,29 @@ class ConfigureSpouses(object):
         Helpers().get_header()
         print ''
         print 'Associate spouse with participant'
-        for index, participant in enumerate(self.unassigned):
-            print "{0:3} {1}".format(index, participant)
-        spouse = int(raw_input('%s spouse: ') % self.unassigned[0])
-        self.add(spouse, self.unassigned[0])
+        print 'Enter "x" to save and return to Main Menu.'
 
-    def add(self, spouse, kringle):
-        if spouse == 'None':
-            del self.unassigned[kringle]
+        if len(self.unassigned) == 1:
+            FileWorker().writefile('spouses.json', self.spouses)
+            Helpers().restart()
+
+        for index, participant in enumerate(self.unassigned):
+            if index > 0:
+                print "{0:3} {1}".format(index, participant)
+        spouse = raw_input('Spouse for %s: ' % self.unassigned[0])
+        self.add(spouse)
+
+    def add(self, spouse):
+        if self.unassigned[int(spouse)] == 'None':
+            del self.unassigned[0]
+        elif spouse == 'x':
+            FileWorker().writefile('spouses.json', self.spouses)
+            Helpers().restart()
         else:
-            self.spouses[spouse] = kringle
-            self.spouses[kringle] = spouse
-            del self.unassigned[spouse]
-            del self.unassigned[kringle]
+            self.spouses[self.unassigned[int(spouse)]] = self.unassigned[0]
+            self.spouses[self.unassigned[0]] = self.unassigned[int(spouse)]
+            del self.unassigned[int(spouse)]
+            del self.unassigned[0]
         self.configure()
 
     def edit(self):
